@@ -7,7 +7,7 @@ FastAPI-based API to predict education indicators.
 - /results
 - /latest
 
-**Visual.studio**   python -m http.server 5500
+**Visual Studio**   python -m http.server 5500
 
 
 96.50,97.8,98.2
