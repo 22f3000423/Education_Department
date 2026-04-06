@@ -16,12 +16,12 @@
 
     <div class="grid grid-cols-2 gap-4">
 
-      <input class="input" placeholder="Retention (e.g. 80,85,90)" id="retention">
+      <input class="input" placeholder="Retention (without gaps just commas)" id="retention">
       <input class="input" placeholder="Transition" id="transition">
       <input class="input" placeholder="Promotion" id="promotion">
       <input class="input" placeholder="Dropout" id="dropout">
       <input class="input" placeholder="Repetition" id="repetition">
-      <input class="input" placeholder="GPI (e.g. 0.98,1.01,1.02)" id="gpi">
+      <input class="input" placeholder="GPI" id="gpi">
 
     </div>
 
@@ -55,8 +55,7 @@
 
 <script>
 
-const API_URL = "https://education-department.onrender.com/predict-all"; 
-// 👉 Replace this with your Render URL later
+const API_URL = "http://127.0.0.1:8000/predict-all"; 
 
 function toArray(val) {
   return val.split(",").map(Number);
