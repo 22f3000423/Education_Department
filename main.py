@@ -1,10 +1,20 @@
+from fastapi.responses import FileResponse
 from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import List
 
 app = FastAPI()
 
-# ===== STORAGE (IN-MEMORY) =====
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 stored_results = []
 
 class EducationPredictor:
@@ -50,8 +60,8 @@ class InputData(BaseModel):
     gpi: List[float]
 
 @app.get("/")
-def home():
-    return {"message": "API is running 🚀"}
+def serve_frontend():
+    return FileResponse("index.html")
 
 @app.post("/predict-all")
 def predict_all(data: InputData):
