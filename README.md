@@ -8,6 +8,7 @@ FastAPI-based API to predict education indicators.
 - /latest
 
 **Visual.studio**
+
 python -m http.server 5500
 
 
@@ -24,4 +25,5 @@ python -m http.server 5500
 1,1.01,1.01
 
 **Render **
+
 https://education-department.onrender.com/predict-all
