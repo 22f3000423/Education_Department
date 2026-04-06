@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Education Predictor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-br from-indigo-100 to-blue-50 min-h-screen flex items-center justify-center">
+
+  <div class="bg-white shadow-2xl rounded-2xl p-8 w-full max-w-3xl">
+
+    <h1 class="text-3xl font-bold text-center text-indigo-700 mb-6">
+      Education Predictor Dashboard
+    </h1>
+
+    <div class="grid grid-cols-2 gap-4">
+
+      <input class="input" placeholder="Retention (e.g. 80,85,90)" id="retention">
+      <input class="input" placeholder="Transition" id="transition">
+      <input class="input" placeholder="Promotion" id="promotion">
+      <input class="input" placeholder="Dropout" id="dropout">
+      <input class="input" placeholder="Repetition" id="repetition">
+      <input class="input" placeholder="GPI (e.g. 0.98,1.01,1.02)" id="gpi">
+
+    </div>
+
+    <button onclick="predict()" 
+      class="mt-6 w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition">
+      Predict
+    </button>
+
+    <!-- Result -->
+    <div id="result" class="mt-6 hidden">
+      <h2 class="text-xl font-semibold mb-4 text-gray-700">Results</h2>
+      <div id="resultGrid" class="grid grid-cols-2 gap-4"></div>
+    </div>
+
+  </div>
+
+</body>
+
+<style>
+  .input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+  }
+  .input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 2px rgba(99,102,241,0.2);
+  }
+</style>
+
+<script>
+
+const API_URL = "https://education-department.onrender.com/predict-all"; 
+// 👉 Replace this with your Render URL later
+
+function toArray(val) {
+  return val.split(",").map(Number);
+}
+
+async function predict() {
+
+  const data = {
+    retention: toArray(document.getElementById("retention").value),
+    transition: toArray(document.getElementById("transition").value),
+    promotion: toArray(document.getElementById("promotion").value),
+    dropout: toArray(document.getElementById("dropout").value),
+    repetition: toArray(document.getElementById("repetition").value),
+    gpi: toArray(document.getElementById("gpi").value),
+  };
+
+  try {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+    showResult(result);
+
+  } catch (err) {
+    alert("Error connecting to backend");
+    console.error(err);
+  }
+}
+
+function showResult(result) {
+
+  const container = document.getElementById("resultGrid");
+  container.innerHTML = "";
+
+  for (let key in result) {
+    container.innerHTML += `
+      <div class="bg-indigo-50 p-4 rounded-lg text-center">
+        <p class="text-sm text-gray-600">${key}</p>
+        <p class="text-lg font-bold text-indigo-700">${result[key]}</p>
+      </div>
+    `;
+  }
+
+  document.getElementById("result").classList.remove("hidden");
+}
+
+</script>
+
+</html>
